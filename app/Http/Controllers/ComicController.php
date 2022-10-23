@@ -4,82 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\Comic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\Form;
 
 class ComicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+     * It returns a form if it exists, otherwise it returns a 403 error
+     * 
+     * @return The form is being returned.
+    */
+    public function detailForm()
     {
-        //
+        $form = Form::where('user_id', Auth::user()->id)->first();
+
+        if(!$form)
+        {
+            return response([
+                'message' => 'Form not found'
+            ], 403);
+        }
+
+        return response([
+            'message' => 'Form found'
+        ], 200);
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     * It creates a new form, assigns the user id of the currently logged in user to it, and then saves it
+     * to the database
+     * 
+     * @param Request request The request object.
+     * 
+     * @return A JSON object with a message and the form object.
+    */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comic $comic)
-    {
-        //
-    }
+        $form = new Form;
+        $form->user_id = Auth::user()->id;
+        $form->country = $request->country;
+        $form->gender = $request->gender;
+        $form->birthday = $request->birthday;
+        $form->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comic $comic)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comic $comic)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Comic  $comic
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comic $comic)
-    {
-        //
+        return response([
+            'message' => 'Form created.',
+            'form' => $form,
+        ], 200);
     }
 }
