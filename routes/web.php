@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'prevent-back-history'],function(){
+	Auth::routes();
+    Route::get('/login/admin', [App\Http\Controllers\Auth\LoginAdminController::class, 'showLoginForm']);
+    Route::post('/login/admin', [App\Http\Controllers\Auth\LoginAdminController::class, 'login'])->name('login.admin');
+	Route::get('/logout/admin', [App\Http\Controllers\Auth\LoginAdminController::class, 'logout'])->name('logout.admin');
+
+    Route::get('/password/request/admin', [App\Http\Controllers\Auth\ForgotAdminPasswordController::class], 'showLinkRequestForm')->name('password.request.admin');
+    Route::post('/password/email/admin', [App\Http\Controllers\Auth\ForgotAdminPasswordController::class], 'sendResetLinkEmail')->name('password.email.admin');
+    Route::post('/register/admin', [App\Http\Controllers\Auth\RegisterController::class], 'registerAdmin')->name('register.admin');
+    
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
+
+
