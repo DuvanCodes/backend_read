@@ -25,6 +25,14 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    // Category
+    Route::get('/category', [App\Http\Controllers\ComicController::class, 'viewCategory'])->name('category');
+    Route::post('/create-category', [App\Http\Controllers\ComicController::class, 'createCategory'])->name('create-category');
+
+    // Comics
+    Route::get('/comic', [App\Http\Controllers\ComicController::class, 'viewComic'])->name('comic');
+    Route::post('/create-comic', [App\Http\Controllers\ComicController::class, 'createComic'])->name('create-comic');
 });
 
 

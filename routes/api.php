@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ComicController;
+use App\Http\Controllers\SyncController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +28,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Form
-    Route::get('/forms', [FormsController::class, 'detailForm']);
-    Route::post('/forms', [FormsController::class, 'store']);
+    Route::get('/forms', [SyncController::class, 'detailForm']);
+    Route::post('/forms', [SyncController::class, 'store']);
 });

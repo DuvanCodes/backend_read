@@ -186,6 +186,21 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="la la-dashboard"></i>
+                                        <span> Config. Comics </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="nav-second-level" aria-expanded="false">
+                                        <li>
+                                            <a href="{{ route('category') }}">Categorias</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('comic') }}">Comic</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endif
                     </ul>
 

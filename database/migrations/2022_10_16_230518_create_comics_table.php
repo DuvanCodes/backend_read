@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('comics', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('filename');
+            $table->text('filename');
             $table->string('author');
             $table->text('Description');
             $table->string('status');
