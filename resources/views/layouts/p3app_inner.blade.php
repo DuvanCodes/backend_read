@@ -201,6 +201,13 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li>
+                                    <a href="{{ route('list-comic') }}">
+                                        <i class="la la-dashboard"></i>
+                                        <span> Lista de Comics </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                </li>
                             @endif
                     </ul>
 

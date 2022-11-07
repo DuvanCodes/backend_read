@@ -33,6 +33,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     // Comics
     Route::get('/comic', [App\Http\Controllers\ComicController::class, 'viewComic'])->name('comic');
     Route::post('/create-comic', [App\Http\Controllers\ComicController::class, 'createComic'])->name('create-comic');
+    Route::get('/list-comic', [App\Http\Controllers\ComicController::class, 'ListComic'])->name('list-comic');
 });
 
 

@@ -103,4 +103,10 @@ class ComicController extends Controller
         }
 
     }
+
+    public function ListComic(){
+
+        $comics = Comic::orderBy('id', 'ASC')->get();
+        return view('comics.list-comic', compact('comics'));
+    }
 }
