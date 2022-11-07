@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Form;
 
@@ -44,9 +45,21 @@ class SyncController extends Controller
     public function store(Request $request)
     {
 
+        $str  = preg_replace( "([ ]+)","-",$request->country);
+        $explode = explode("-",$str);
+
+        $contador = count($explode);
+        $loop = $contador - 1;
+        $name_country = null;
+        for ($i=1; $i <= $loop ; $i++) { 
+            $name_country = $name_country.' '.$explode[$i];
+        }
+
+        //Log::alert($explode);
+
         $form = new Form;
         $form->user_id = Auth::user()->id;
-        $form->country = $request->country;
+        $form->country = ltrim($name_country);
         $form->gender = $request->gender;
         $form->birthday = $request->birthday;
         $form->save();
