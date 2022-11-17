@@ -30,4 +30,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     // Form
     Route::get('/forms', [SyncController::class, 'detailForm']);
     Route::post('/forms', [SyncController::class, 'store']);
+
+    // Trend Week
+    Route::get('/wtrends', [SyncController::class, 'trends']);
+    // Recently Add
+    Route::get('/recently', [SyncController::class, 'recently']);
 });

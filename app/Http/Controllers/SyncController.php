@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use App\Models\Form;
+use App\Models\Comic;
+use App\Models\Like;
 
 class SyncController extends Controller
 {
@@ -67,6 +71,49 @@ class SyncController extends Controller
         return response([
             'message' => 'Form created.',
             'form' => $form,
+        ], 200);
+    }
+
+    /**
+     * It returns the top 5 comics that have been liked the most in the past week.
+     * 
+     * @return the top 5 comics that have been liked the most in the past week.
+    */
+    public function trends(){
+
+        $now = Carbon::now();
+
+
+        $likes = Like::select(DB::raw('likes.comic_id, COUNT(likes.id) AS liked'))->whereBetween('likes.created_at', [$now->startOfWeek()->format('Y-m-d H:i:s'),$now->endOfWeek()->format('Y-m-d H:i:s')])
+            ->groupBy('likes.comic_id')->orderBy('liked', 'DESC')->take(5)->pluck('likes.comic_id');
+                  
+        $trends = Comic::whereIn('id', $likes)->get();
+
+        foreach($trends as $trend){
+            $trend->likes = Like::whereBetween('likes.created_at', [$now->startOfWeek()->format('Y-m-d H:i:s'),$now->endOfWeek()->format('Y-m-d H:i:s')])->where('likes.comic_id', $trend->id)->count();
+        }
+        $trends = $trends->map(function ($trend) {
+            return $trend->only(['name', 'filename', 'author', 'description', 'status', 'scan', 'url', 'likes']);
+        });
+
+        Log::alert('GetTrendComic ' . $trends);
+        return response([
+            'trends' => $trends
+        ], 200);      
+
+    }
+
+    /**
+     * It returns the 5 most recently added comics.
+     * 
+     * @return The recently added comics are being returned.
+    */
+    public function recently(){
+        $comics = Comic::select('name', 'filename', 'author', 'description', 'status', 'scan', 'url')->orderBy('created_at', 'DESC')->take(5)->get();
+
+        Log::alert('GetRencentlyComic ' . $comics);
+        return response([
+            'comics' => $comics
         ], 200);
     }
 }

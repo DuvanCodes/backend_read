@@ -76,7 +76,7 @@ class ComicController extends Controller
             $comics = new Comic;
             $comics->name = $request->name;
             $comics->author = $request->author;
-            $comics->Description = $request->description;
+            $comics->description = $request->description;
             $comics->status = $request->status;
             $comics->scan = $request->scan;
             $comics->url = $request->url;

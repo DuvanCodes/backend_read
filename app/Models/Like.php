@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+    */
+    protected $fillable = [
+        'comic_id', 'user_id'
+    ];
 }

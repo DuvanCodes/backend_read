@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('filename');
             $table->string('author');
-            $table->text('Description');
+            $table->text('description');
             $table->string('status');
             $table->string('scan');
             $table->text('url');

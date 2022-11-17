@@ -15,7 +15,7 @@ class Comic extends Model
      * @var array<int, string>
     */
     protected $fillable = [
-        'name', 'filename', 'author', 'Description', 'status', 'scan', 'url'
+        'name', 'filename', 'author', 'description', 'status', 'scan', 'url'
     ];
 
     public function names_categories($ids){
